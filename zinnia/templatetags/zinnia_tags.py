@@ -6,6 +6,7 @@ from datetime import datetime
 
 from django.db.models import Q
 from django.db.models import Count
+from django.utils import timezone
 from django.template import Node
 from django.template import Library
 from django.template import TemplateSyntaxError
@@ -174,7 +175,7 @@ def get_calendar_entries(context, year=None, month=None,
         year, month = date_month.timetuple()[:2]
 
     calendar = ZinniaCalendar()
-    current_month = datetime(year, month, 1)
+    current_month = datetime(year, month, 1, tzinfo=timezone.utc)
 
     dates = list(Entry.published.dates('creation_date', 'month'))
 
