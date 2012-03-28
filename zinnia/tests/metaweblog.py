@@ -188,7 +188,7 @@ class MetaWeblogTestCase(TestCase):
         self.assertEquals(post['title'], self.entry_1.title)
         self.assertEquals(post['description'], '<p>My content 1</p>')
         self.assertEquals(post['categories'], ['Category 1', 'Category 2'])
-        self.assertEquals(post['dateCreated'].value, '2010-01-01T00:00:00+00:00')
+        self.assertEquals(post['dateCreated'].value, '2010-01-01T00:00:00')
         self.assertEquals(post['link'],
                           'http://example.com/2010/01/01/my-entry-1/')
         self.assertEquals(post['permaLink'],
