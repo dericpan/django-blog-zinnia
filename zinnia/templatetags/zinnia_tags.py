@@ -7,9 +7,7 @@ from datetime import datetime
 from django.db.models import Q
 from django.db.models import Count
 from django.utils import timezone
-from django.template import Node
 from django.template import Library
-from django.template import TemplateSyntaxError
 from django.contrib.comments.models import CommentFlag
 from django.contrib.contenttypes.models import ContentType
 from django.utils.encoding import smart_unicode
@@ -275,9 +273,11 @@ def zinnia_breadcrumbs(context, root_name='Blog',
                        template='zinnia/tags/breadcrumbs.html',):
     """Return a breadcrumb for the application"""
     path = context['request'].path
-    page_object = context.get('object') or context.get('category') or \
-                  context.get('tag') or context.get('author')
-    breadcrumbs = retrieve_breadcrumbs(path, page_object, root_name)
+    context_object = context.get('object') or context.get('category') or \
+                     context.get('tag') or context.get('author')
+    context_page = context.get('page_obj')
+    breadcrumbs = retrieve_breadcrumbs(path, context_object,
+                                       context_page, root_name)
 
     return {'template': template,
             'breadcrumbs': breadcrumbs}
@@ -300,27 +300,10 @@ def get_gravatar(email, size=80, rating='g', default=None,
     return url.replace('&', '&amp;')
 
 
-class TagsNode(Node):
-    def __init__(self, context_var):
-        self.context_var = context_var
-
-    def render(self, context):
-        context[self.context_var] = tags_published()
-        return ''
-
-
-@register.tag
-def get_tags(parser, token):
-    """{% get_tags as var %}"""
-    bits = token.split_contents()
-
-    if len(bits) != 3:
-        raise TemplateSyntaxError(
-            'get_tags tag takes exactly two arguments')
-    if bits[1] != 'as':
-        raise TemplateSyntaxError(
-            "first argument to get_tags tag must be 'as'")
-    return TagsNode(bits[2])
+@register.assignment_tag
+def get_tags():
+    """Return the published tags"""
+    return tags_published()
 
 
 @register.inclusion_tag('zinnia/tags/dummy.html')

@@ -1,6 +1,5 @@
 """Models of Zinnia"""
 import warnings
-from datetime import datetime
 
 from django.db import models
 from django.db.models import Q
@@ -140,13 +139,11 @@ class EntryAbstractClass(models.Model):
                                          default=timezone.now)
     last_update = models.DateTimeField(_('last update'), default=timezone.now)
     start_publication = models.DateTimeField(_('start publication'),
-                                             help_text=_('date start publish'),
-                                             default=timezone.now)
+                                             blank=True, null=True,
+                                             help_text=_('date start publish'))
     end_publication = models.DateTimeField(_('end publication'),
-                                           help_text=_('date end publish'),
-                                           default=datetime(
-                                               2042, 3, 15,
-                                               tzinfo=timezone.utc))
+                                           blank=True, null=True,
+                                           help_text=_('date end publish'))
 
     sites = models.ManyToManyField(Site, verbose_name=_('sites publication'),
                                    related_name='entries')
@@ -160,8 +157,8 @@ class EntryAbstractClass(models.Model):
 
     template = models.CharField(
         _('template'), max_length=250,
-        default='zinnia/entry_detail.html',
-        choices=[('zinnia/entry_detail.html', _('Default template'))] + \
+        default='entry_detail.html',
+        choices=[('entry_detail.html', _('Default template'))] + \
         ENTRY_TEMPLATES,
         help_text=_('template used to display the entry'))
 
@@ -206,7 +203,12 @@ class EntryAbstractClass(models.Model):
     def is_actual(self):
         """Check if an entry is within publication period"""
         now = timezone.now()
-        return now >= self.start_publication and now < self.end_publication
+        if self.start_publication and now < self.start_publication:
+            return False
+
+        if self.end_publication and now >= self.end_publication:
+            return False
+        return True
 
     @property
     def is_visible(self):

@@ -8,13 +8,13 @@ be here. :)
 
 Predicting the future is a good thing, because it's coming soon.
 Actually Zinnia is designed to handle the 1.4.x version and will reach the
-release 1.5 easily without major changes.
+release 1.6 easily without major changes.
 
 https://docs.djangoproject.com/en/dev/internals/deprecation/
 
 But the evolution of Django causes some backward incompatible changes, so
 for the developers who have to maintain a project with an old version of
-Django, it can be difficult  to find which version of Zinnia to choose.
+Django, it can be difficult to find which version of Zinnia to choose.
 
 .. _zinnia-django-compatibility:
 
@@ -27,7 +27,8 @@ Here a list establishing the compatibility between Zinnia and Django:
 
 Backward incompatibilities with Django v1.3.x due to :
 
-* Time zones support
+* Time-zones support.
+* Usage of the new features provided in the testrunner.
 
 .. versionchanged:: 0.10
 
