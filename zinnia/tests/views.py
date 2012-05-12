@@ -3,6 +3,7 @@ from datetime import date
 from datetime import datetime
 
 from django.test import TestCase
+from django.utils import timezone
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
 from django.test.utils import override_settings
@@ -30,7 +31,8 @@ class ViewsBaseCase(TestCase):
                   'content': 'First test entry published',
                   'slug': 'test-1',
                   'tags': 'tests',
-                  'creation_date': datetime(2010, 1, 1),
+                  'creation_date': datetime(2010, 1, 1, 13, 25,
+                                            tzinfo=timezone.utc),
                   'status': PUBLISHED}
         entry = Entry.objects.create(**params)
         entry.sites.add(self.site)
@@ -41,7 +43,8 @@ class ViewsBaseCase(TestCase):
                   'content': 'Second test entry published',
                   'slug': 'test-2',
                   'tags': 'tests',
-                  'creation_date': datetime(2010, 6, 1),
+                  'creation_date': datetime(2010, 6, 1, 12, 12,
+                                            tzinfo=timezone.utc),
                   'status': PUBLISHED}
         entry = Entry.objects.create(**params)
         entry.sites.add(self.site)
@@ -53,7 +56,8 @@ class ViewsBaseCase(TestCase):
                   'content': 'My test content',
                   'slug': 'my-test-entry',
                   'tags': 'tests',
-                  'creation_date': datetime(2010, 1, 1),
+                  'creation_date': datetime(2010, 1, 1, 15, 15,
+                                            tzinfo=timezone.utc),
                   'status': PUBLISHED}
         entry = Entry.objects.create(**params)
         entry.sites.add(self.site)
@@ -267,7 +271,8 @@ class ZinniaViewsTestCase(ViewsBaseCase):
             params = {'title': 'My entry %i' % i,
                       'content': 'My content %i' % i,
                       'slug': 'my-entry-%i' % i,
-                      'creation_date': datetime(2010, 1, 1),
+                      'creation_date': datetime(
+                          2010, 1, 1, tzinfo=timezone.utc),
                       'status': PUBLISHED}
             entry = Entry.objects.create(**params)
             entry.sites.add(self.site)

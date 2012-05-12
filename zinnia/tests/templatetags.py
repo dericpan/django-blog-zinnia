@@ -48,7 +48,7 @@ class TemplateTagsTestCase(TestCase):
         params = {'title': 'My entry',
                   'content': 'My content',
                   'tags': 'zinnia, test',
-                  'creation_date': datetime(2010, 1, 1),
+                  'creation_date': datetime(2010, 1, 1, tzinfo=timezone.utc),
                   'slug': 'my-entry'}
         self.entry = Entry.objects.create(**params)
 
@@ -214,7 +214,7 @@ class TemplateTagsTestCase(TestCase):
                   'content': 'My second content',
                   'tags': 'zinnia, test',
                   'status': PUBLISHED,
-                  'creation_date': datetime(2009, 1, 1),
+                  'creation_date': datetime(2009, 1, 1, tzinfo=timezone.utc),
                   'slug': 'my-second-entry'}
         site = Site.objects.get_current()
         second_entry = Entry.objects.create(**params)
@@ -239,7 +239,7 @@ class TemplateTagsTestCase(TestCase):
                   'content': 'My second content',
                   'tags': 'zinnia, test',
                   'status': PUBLISHED,
-                  'creation_date': datetime(2009, 1, 10),
+                  'creation_date': datetime(2009, 1, 10, tzinfo=timezone.utc),
                   'slug': 'my-second-entry'}
         site = Site.objects.get_current()
         second_entry = Entry.objects.create(**params)

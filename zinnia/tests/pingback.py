@@ -6,6 +6,7 @@ from urllib2 import HTTPError
 from xmlrpclib import ServerProxy
 
 from django.test import TestCase
+from django.utils import timezone
 from django.contrib import comments
 from django.contrib.auth.models import User
 from django.contrib.sites.models import Site
@@ -57,7 +58,8 @@ class PingBackTestCase(TestCase):
         params = {'title': 'My first entry',
                   'content': 'My first content',
                   'slug': 'my-first-entry',
-                  'creation_date': datetime(2010, 1, 1),
+                  'creation_date': datetime(2010, 1, 1, 12, 0,
+                                            tzinfo=timezone.utc),
                   'status': PUBLISHED}
         self.first_entry = Entry.objects.create(**params)
         self.first_entry.sites.add(self.site)
@@ -73,7 +75,8 @@ class PingBackTestCase(TestCase):
                       'http://localhost:8000/error-404/',
                       'http://example.com/'),
                   'slug': 'my-second-entry',
-                  'creation_date': datetime(2010, 1, 1),
+                  'creation_date': datetime(2010, 1, 1, 13, 0,
+                                            tzinfo=timezone.utc),
                   'status': PUBLISHED}
         self.second_entry = Entry.objects.create(**params)
         self.second_entry.sites.add(self.site)

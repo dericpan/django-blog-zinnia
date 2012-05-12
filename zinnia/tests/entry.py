@@ -135,7 +135,7 @@ class EntryTestCase(TestCase):
         params = {'title': 'My second entry',
                   'content': 'My second content',
                   'slug': 'my-second-entry',
-                  'creation_date': datetime(2000, 1, 1),
+                  'creation_date': datetime(2000, 1, 1, tzinfo=timezone.utc),
                   'status': PUBLISHED}
         self.second_entry = Entry.objects.create(**params)
         self.second_entry.sites.add(site)
@@ -143,7 +143,7 @@ class EntryTestCase(TestCase):
         params = {'title': 'My third entry',
                   'content': 'My third content',
                   'slug': 'my-third-entry',
-                  'creation_date': datetime(2001, 1, 1),
+                  'creation_date': datetime(2001, 1, 1, tzinfo=timezone.utc),
                   'status': PUBLISHED}
         self.third_entry = Entry.objects.create(**params)
         self.third_entry.sites.add(site)
@@ -156,7 +156,7 @@ class EntryTestCase(TestCase):
         params = {'title': 'My second entry',
                   'content': 'My second content',
                   'slug': 'my-second-entry',
-                  'creation_date': datetime(2100, 1, 1),
+                  'creation_date': datetime(2100, 1, 1, tzinfo=timezone.utc),
                   'status': PUBLISHED}
         self.second_entry = Entry.objects.create(**params)
         self.second_entry.sites.add(site)
@@ -164,7 +164,7 @@ class EntryTestCase(TestCase):
         params = {'title': 'My third entry',
                   'content': 'My third content',
                   'slug': 'my-third-entry',
-                  'creation_date': datetime(2050, 1, 1),
+                  'creation_date': datetime(2050, 1, 1, tzinfo=timezone.utc),
                   'status': PUBLISHED}
         self.third_entry = Entry.objects.create(**params)
         self.third_entry.sites.add(site)
