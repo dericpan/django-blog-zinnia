@@ -1,6 +1,8 @@
 """Mixins for Zinnia archive views"""
 from datetime import datetime
 
+from django.utils import timezone
+
 from zinnia.settings import PAGINATION
 from zinnia.settings import ALLOW_EMPTY
 from zinnia.settings import ALLOW_FUTURE
@@ -40,23 +42,23 @@ class PreviousNextPublishedMixin(object):
     def get_next_month(self, date):
         """Get the next month with published Entries"""
         return self.get_previous_next_published(
-            datetime(date.year, date.month, 1), 'month',
+            datetime(date.year, date.month, 1, tzinfo=timezone.utc), 'month',
             previous=False)
 
     def get_previous_month(self, date):
         """Get the previous month with published Entries"""
         return self.get_previous_next_published(
-            datetime(date.year, date.month, 1), 'month',
+            datetime(date.year, date.month, 1, tzinfo=timezone.utc), 'month',
             previous=True)
 
     def get_next_day(self, date):
         """Get the next day with published Entries"""
         return self.get_previous_next_published(
-            datetime(date.year, date.month, date.day),
+            datetime(date.year, date.month, date.day, tzinfo=timezone.utc),
             'day', previous=False)
 
     def get_previous_day(self, date):
         """Get the previous day with published Entries"""
         return self.get_previous_next_published(
-            datetime(date.year, date.month, date.day),
+            datetime(date.year, date.month, date.day, tzinfo=timezone.utc),
             'day', previous=True)
